@@ -8,9 +8,14 @@ class TemplateGeneratorTest < Rails::Generators::TestCase
 
 
   %w(js coffee).each do |engine|
-    test "template with #{engine} as current engine" do
-      run_generator ["post", "--javascript-engine", engine]
-      assert_file "app/assets/javascripts/templates/post.handlebars"
+    %w(handlebars emblem).each do |templating|
+      test "template with #{engine} as javascript engine and #{templating} as templating engine" do
+        run_generator ["post",
+          "--javascript-engine", engine,
+          "--templating-engine", templating
+        ]
+        assert_file "app/assets/javascripts/templates/post.#{templating}"
+      end
     end
   end
 
